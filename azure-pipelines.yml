@@ -21,10 +21,18 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
 
+- script: |
+    echo "===== Looking for WAR files ====="
+    find "$(System.DefaultWorkingDirectory)" -name "*.war" -type f -print
+    echo "===== Looking for target folders ====="
+    find "$(System.DefaultWorkingDirectory)" -type d -name target -print
+  displayName: 'Find WAR file'
+
+
     
 - task: CopyFiles@2
   inputs:
-    Contents: '**/.war'
+    Contents: '**/target/.war'
     TargetFolder: '$(build.artifactstagingdirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
